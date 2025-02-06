@@ -16,6 +16,7 @@ This structure is optimized through indexing for fast data retrieval and include
 
 ## UML Use Case
 The Use-Case diagram represents the interaction between users (actors) and the system. There are two main actors: the user and the librarian. First, I created a basic diagram where the user can search for a book, borrow, and return it. The librarian can add books, update book information, and track borrowing history. Then I added additional cases with include and exclude relationships and generalization
+<br/><br/>
 <img src="images/usecase1.png" width="300">
 <img src="images/usecase2.png" width="600">
 <br/><br/>
