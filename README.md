@@ -22,6 +22,7 @@ The Use-Case diagram represents the interaction between users (actors) and the s
 
 ## UML Sequence
 A Sequence Diagram shows the step-by-step interactions between the system's components and users (actors) for a specific process. I created four main sequence diagrams to represent the general processes: Add, Search, Borrow and Return a book
+<br/><br/>
 <img src="images/add.png" width="400">
 <img src="images/search.png" width="400">
 <img src="images/borrow.png" width="400">
