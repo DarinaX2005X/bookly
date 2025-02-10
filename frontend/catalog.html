@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Bookly - Catalog</title>
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+  <header>
+    <div class="container">
+      <div class="logo">Bookly</div>
+      <nav>
+        <ul>
+          <li><a href="/index.html">Home</a></li>
+          <li><a href="/catalog.html">Catalog</a></li>
+          <li><a href="/my-books.html" id="my-books-link">My Books</a></li>
+          <li><a href="/admin.html" id="admin-link">Admin</a></li>
+        </ul>
+      </nav>
+      <div class="auth-buttons">
+        <button id="login-btn">Login</button>
+        <button id="register-btn">Register</button>
+      </div>
+    </div>
+  </header>
+  <main class="container">
+    <h1>Book Catalog</h1>
+    <div id="filters">
+      <form id="search-form">
+        <input type="text" id="search-input" placeholder="Search by title, author...">
+        <select id="genre-select">
+          <option value="">All Genres</option>
+          <option value="Fiction">Fiction</option>
+          <option value="Nonfiction">Nonfiction</option>
+          <option value="History">History</option>
+          <option value="Science">Science</option>
+          <option value="Biography">Biography</option>
+          <option value="Mystery">Mystery</option>
+          <option value="Fantasy">Fantasy</option>
+          <option value="Romance">Romance</option>
+        </select>
+        <button type="submit" class="btn">Search</button>
+      </form>
+    </div>
+    <div id="books-container"></div>
+    <div id="pagination"></div>
+  </main>
+  <script src="/js/books.js"></script>
+  <script src="/js/auth.js"></script>
+</body>
+</html>

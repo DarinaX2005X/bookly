@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Bookly - Admin Panel</title>
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+  <header>
+    <div class="container">
+      <div class="logo">Bookly</div>
+      <nav>
+        <ul>
+          <li><a href="/index.html">Home</a></li>
+          <li><a href="/catalog.html">Catalog</a></li>
+          <li><a href="/my-books.html" id="my-books-link">My Books</a></li>
+          <li><a href="/admin.html" id="admin-link">Admin</a></li>
+        </ul>
+      </nav>
+      <div class="auth-buttons">
+        <button id="login-btn">Login</button>
+        <button id="register-btn">Register</button>
+      </div>
+    </div>
+  </header>
+  <main class="container">
+    <h1>Admin Panel</h1>
+    <div id="stats"></div>
+    <!-- Реальный график можно встроить с Chart.js; здесь пример с canvas -->
+    <div id="charts">
+      <canvas id="statsChart" width="400" height="200"></canvas>
+    </div>
+  </main>
+  <script src="/js/admin.js"></script>
+  <script src="/js/auth.js"></script>
+</body>
+</html>

@@ -1,0 +1,275 @@
+/* General Styles */
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  background-color: #f4f4f4;
+}
+
+.container {
+  width: 90%;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+/* Header */
+header {
+  background-color: #333;
+  color: white;
+  padding: 1rem 0;
+  display: flex;
+  align-items: center;
+}
+header .container {
+  display: flex;
+  align-items: center;
+}
+header .logo {
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+header nav ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  gap: 1rem;
+}
+header nav ul li a {
+  color: white;
+  text-decoration: none;
+}
+header .auth-buttons {
+  margin-left: auto;
+}
+header .auth-buttons button {
+  background-color: #555;
+  color: white;
+  border: none;
+  padding: 0.5rem 1rem;
+  cursor: pointer;
+}
+header .auth-buttons button:hover {
+  background-color: #777;
+}
+
+/* Hero Section */
+.hero {
+  text-align: center;
+  padding: 5rem 0;
+}
+.hero h1 {
+  font-size: 3rem;
+  margin-bottom: 1rem;
+}
+.hero p {
+  font-size: 1.2rem;
+  color: #666;
+  margin-bottom: 2rem;
+}
+.hero .btn {
+  background-color: #333;
+  color: white;
+  padding: 0.75rem 1.5rem;
+  text-decoration: none;
+  border-radius: 5px;
+}
+.hero .btn:hover {
+  background-color: #555;
+}
+
+/* Modal */
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 1000;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+}
+.modal-content {
+  background-color: white;
+  margin: 10% auto;
+  padding: 2rem;
+  width: 90%;
+  max-width: 400px;
+  border-radius: 5px;
+  position: relative;
+}
+.modal .close {
+  position: absolute;
+  right: 1rem;
+  top: 1rem;
+  font-size: 1.5rem;
+  cursor: pointer;
+}
+.modal h2 {
+  margin-bottom: 1rem;
+}
+.modal input,
+.modal select {
+  width: 100%;
+  padding: 0.5rem;
+  margin-bottom: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+.modal button {
+  width: 100%;
+  padding: 0.75rem;
+  background-color: #333;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+.modal button:hover {
+  background-color: #555;
+}
+
+/* Admin Panel */
+#stats {
+  background-color: white;
+  padding: 1rem;
+  border-radius: 5px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+#stats h2 {
+  margin-bottom: 1rem;
+}
+#stats p {
+  margin: 0.5rem 0;
+}
+
+/* Catalog Grid */
+#books-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  grid-gap: 1rem;
+  margin-bottom: 1rem;
+}
+.book-card {
+  background: white;
+  border-radius: 5px;
+  padding: 1rem;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+  position: relative;
+  cursor: pointer;
+  transition: transform 0.2s;
+}
+.book-card:hover {
+  transform: scale(1.02);
+}
+.book-card img {
+  width: 100%;
+  height: 300px;
+  object-fit: cover;
+  border-radius: 5px;
+}
+.book-card h3 {
+  margin: 0.5rem 0;
+}
+.book-card p {
+  margin: 0.5rem 0;
+  font-size: 0.9rem;
+  color: #555;
+}
+/* Скрытый блок с подробной информацией */
+.book-details {
+  display: none;
+  background: #fafafa;
+  padding: 0.5rem;
+  margin-top: 0.5rem;
+  border-top: 1px solid #ddd;
+  font-size: 0.85rem;
+}
+
+/* Фильтры и Поиск */
+#filters {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 1rem;
+  align-items: center;
+}
+#filters input,
+#filters select {
+  padding: 0.5rem;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+/* Пагинация */
+#pagination button {
+  margin: 0.2rem;
+  padding: 0.5rem 0.75rem;
+  border: none;
+  background-color: #333;
+  color: white;
+  border-radius: 3px;
+  cursor: pointer;
+}
+#pagination button[disabled] {
+  background-color: #777;
+  cursor: default;
+}
+
+/* 404 Page */
+main.container {
+  text-align: center;
+  padding: 5rem 0;
+}
+main.container h1 {
+  font-size: 3rem;
+  margin-bottom: 1rem;
+}
+main.container p {
+  font-size: 1.2rem;
+  color: #666;
+  margin-bottom: 2rem;
+}
+main.container .btn {
+  background-color: #333;
+  color: white;
+  padding: 0.75rem 1.5rem;
+  text-decoration: none;
+  border-radius: 5px;
+}
+main.container .btn:hover {
+  background-color: #555;
+}
+
+/* Notifications */
+.notification-container {
+  position: fixed;
+  bottom: 1rem;
+  right: 1rem;
+  z-index: 1100;
+}
+.notification {
+  background-color: #4caf50;
+  color: white;
+  padding: 1rem;
+  margin-top: 0.5rem;
+  border-radius: 5px;
+  position: relative;
+  overflow: hidden;
+}
+.notification.error {
+  background-color: #f44336;
+}
+/* Таймер (прогресс-бар) */
+.notification .timer {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  height: 4px;
+  background-color: rgba(255, 255, 255, 0.7);
+  width: 100%;
+  animation: timerAnim 10s linear forwards;
+}
+@keyframes timerAnim {
+  from { width: 100%; }
+  to { width: 0%; }
+}
