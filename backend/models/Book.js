@@ -47,7 +47,7 @@ const bookSchema = new mongoose.Schema(
     },
     description: {
       type: String,
-      default: "",
+      default: "No description available.",
     },
   },
   { timestamps: true }

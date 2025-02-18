@@ -91,7 +91,11 @@ document.getElementById("login-form").addEventListener("submit", async (e) => {
       localStorage.setItem("token", data.token);
       notify("Login successful!", "success");
       updateAuthButtons();
-      window.location.href = "/index.html";
+      if (data.user.role === "admin") {
+        window.location.href = "/admin.html";
+      } else {
+        window.location.href = "/catalog.html";
+      }
     } else {
       notify(data.error || "Login failed", "error");
     }
@@ -152,10 +156,16 @@ async function checkUserRole() {
       headers: { Authorization: `Bearer ${token}` },
     });
     const user = await response.json();
-    if (response.ok && user.data && user.data.role === "admin") {
-      document.getElementById("admin-link").style.display = "block";
-    } else {
-      document.getElementById("admin-link").style.display = "none";
+    if (response.ok && user.data) {
+      if(user.data.role === "admin" || user.data.id === "admin") {
+        document.getElementById("admin-link").style.display = "block";
+        // Скрытие ненужных страниц для админа
+        document.getElementById("my-books-link").style.display = "none";
+        document.querySelector('nav ul').querySelector('li a[href="/catalog.html"]').style.display = "none";
+        document.querySelector('nav ul').querySelector('li a[href="/index.html"]').style.display = "none";
+      } else {
+        document.getElementById("admin-link").style.display = "none";
+      }
     }
   } catch (err) {
     console.error("Error:", err);

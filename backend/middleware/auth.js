@@ -1,5 +1,5 @@
-const jwt = require("jsonwebtoken");
-const User = require("../models/User");
+const jwt = require('jsonwebtoken');
+const User = require('../models/User');
 
 exports.protect = async (req, res, next) => {
   let token;
@@ -12,7 +12,7 @@ exports.protect = async (req, res, next) => {
   try {
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
     if (decoded.id === "admin") {
-      req.user = { id: "admin", role: "admin" };
+      req.user = { id: "admin", role: "admin" }; // Добавление роли админа
     } else {
       req.user = await User.findById(decoded.id);
     }

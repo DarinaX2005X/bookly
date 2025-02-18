@@ -41,7 +41,10 @@ function renderBooks(books) {
       <img src="${book.coverUrl}" alt="${book.title} cover">
       <h3>${book.title}</h3>
       <p>By ${book.authors.join(", ")}</p>
-      <button class="btn-borrow" data-id="${book._id}">Borrow</button>
+      <p>Available Copies: ${book.availableCopies}</p>
+      ${book.availableCopies > 0 
+        ? `<button class="btn-borrow" data-id="${book._id}">Borrow</button>`
+        : `<button class="btn-out-of-stock" disabled>Out of Stock</button>`}
       <div class="book-details">
         <p><strong>Publisher:</strong> ${book.publisher}</p>
         <p><strong>Year:</strong> ${book.publishedYear}</p>

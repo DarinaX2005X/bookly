@@ -1,5 +1,9 @@
 document.addEventListener("DOMContentLoaded", () => {
   loadStats();
+  document.getElementById("logout-btn").addEventListener("click", () => {
+    localStorage.removeItem("token");
+    window.location.href = "/index.html";
+  });
 });
 
 async function loadStats() {
@@ -38,7 +42,16 @@ function renderStats(stats) {
 }
 
 function renderChart(stats) {
-  const chartsContainer = document.getElementById("charts");
-  // Здесь можно подключить Chart.js – для примера просто выводим текст
-  chartsContainer.innerHTML = `<p style="text-align:center; font-style: italic;">[Graph will be displayed here]</p>`;
+  const ctx = document.getElementById("statsChart").getContext("2d");
+  new Chart(ctx, {
+    type: 'bar',
+    data: {
+      labels: ['Books', 'Users', 'Transactions'],
+      datasets: [{
+        label: 'Total Count',
+        data: [stats.totalBooks, stats.totalUsers, stats.totalTransactions],
+        backgroundColor: ['#ff6384', '#36a2eb', '#cc65fe'],
+      }]
+    },
+  });
 }
