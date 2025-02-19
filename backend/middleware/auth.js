@@ -12,9 +12,12 @@ exports.protect = async (req, res, next) => {
   try {
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
     if (decoded.id === "admin") {
-      req.user = { id: "admin", role: "admin" }; // Добавление роли админа
+      req.user = { id: "admin", role: "admin" };
     } else {
       req.user = await User.findById(decoded.id);
+      if (!req.user) {
+        return res.status(401).json({ success: false, error: "User not found" });
+      }
     }
     next();
   } catch (err) {

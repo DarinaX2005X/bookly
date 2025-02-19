@@ -1,6 +1,6 @@
 document.addEventListener("DOMContentLoaded", () => {
   loadBooks();
-  // Раскрытие деталей книги при клике на карточку (не на кнопку Borrow)
+  
   document.getElementById("books-container").addEventListener("click", (e) => {
     const card = e.target.closest(".book-card");
     if (card && !e.target.classList.contains("btn-borrow")) {
@@ -10,7 +10,7 @@ document.addEventListener("DOMContentLoaded", () => {
       }
     }
   });
-  // Обработчик формы поиска
+
   document.getElementById("search-form").addEventListener("submit", (e) => {
     e.preventDefault();
     loadBooks();
@@ -27,10 +27,10 @@ async function loadBooks(page = 1) {
       renderBooks(data.data);
       renderPagination(page, data.pages);
     } else {
-      notify("Failed to load books", "error");
+      console.error('Failed to load books:', data.error);
     }
   } catch (error) {
-    console.error("Error fetching books:", error);
+    console.error('Error fetching books:', error);
   }
 }
 
@@ -53,33 +53,39 @@ function renderBooks(books) {
       </div>
     </div>
   `).join("");
+  
+  document.querySelectorAll('.btn-borrow').forEach(button => {
+    button.addEventListener('click', () => {
+      borrowBook(button.dataset.id);
+    });
+  });
 }
 
 async function borrowBook(bookId) {
-  const token = localStorage.getItem("token");
+  const token = localStorage.getItem('token');
   if (!token) {
-    notify("Please login to borrow a book.", "error");
+    alert('Please login to borrow books.');
     return;
   }
   try {
-    const response = await fetch("/api/transactions", {
-      method: "POST",
+    const response = await fetch('/api/transactions', {
+      method: 'POST',
       headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`
       },
-      body: JSON.stringify({ bookId }),
+      body: JSON.stringify({ bookId })
     });
     const data = await response.json();
     if (response.ok) {
-      notify("Book borrowed successfully!", "success");
-      loadBooks();
+      alert('Book borrowed successfully!');
+      loadBooks(); 
     } else {
-      notify(data.error || "Failed to borrow book", "error");
+      alert(data.error || 'Failed to borrow book');
     }
   } catch (error) {
-    console.error("Error borrowing book:", error);
-    notify("An error occurred. Please try again.", "error");
+    console.error('Error borrowing book:', error);
+    alert('An error occurred while borrowing the book.');
   }
 }
 

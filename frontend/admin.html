@@ -10,20 +10,23 @@
 <body>
   <header>
     <div class="container">
-      <div class="logo">Bookly Admin</div>
+      <div class="logo">Admin Panel</div>
       <div class="auth-buttons">
         <button id="logout-btn">Logout</button>
       </div>
     </div>
   </header>
   <main class="container">
-    <h1>Admin Panel</h1>
-    <div id="stats"></div>
-    <div id="charts">
-      <canvas id="statsChart" width="400" height="200"></canvas>
+    <section id="tabs">
+      <button class="tab-link" data-tab="users">Users</button>
+      <button class="tab-link" data-tab="transactions">Transactions</button>
+      <button class="tab-link" data-tab="librarians">Librarians</button>
+      <button class="tab-link" data-tab="stats">Statistics</button>
+    </section>
+    <div id="content-area">
+      <!-- Content will be dynamically added here -->
     </div>
   </main>
   <script src="/js/admin.js"></script>
-  <script src="/js/auth.js"></script>
 </body>
 </html>

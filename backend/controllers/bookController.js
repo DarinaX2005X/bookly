@@ -1,6 +1,5 @@
 const Book = require("../models/Book");
 
-// Получение списка книг с пагинацией, поиском и фильтрами
 exports.getBooks = async (req, res, next) => {
   try {
     const { page = 1, limit = 10, search, genre } = req.query;
@@ -26,11 +25,70 @@ exports.getBooks = async (req, res, next) => {
   }
 };
 
-// Создание книги (только для admin и librarian)
+// Create a new book
 exports.createBook = async (req, res, next) => {
   try {
     const book = await Book.create(req.body);
     res.status(201).json({ success: true, data: book });
+  } catch (err) {
+    next(err);
+  }
+};
+
+// Get a single book by ID
+exports.getBook = async (req, res, next) => {
+  try {
+    const book = await Book.findById(req.params.id);
+    if (!book) {
+      return res.status(404).json({ success: false, error: 'Book not found' });
+    }
+    res.status(200).json({ success: true, data: book });
+  } catch (err) {
+    next(err);
+  }
+};
+
+// Update book by ID
+exports.updateBook = async (req, res, next) => {
+  try {
+    const book = await Book.findByIdAndUpdate(req.params.id, req.body, {
+      new: true,
+      runValidators: true
+    });
+    if (!book) {
+      return res.status(404).json({ success: false, error: 'Book not found' });
+    }
+    res.status(200).json({ success: true, data: book });
+  } catch (err) {
+    next(err);
+  }
+};
+
+// Delete book by ID
+exports.deleteBook = async (req, res, next) => {
+  try {
+    const book = await Book.findByIdAndDelete(req.params.id);
+    if (!book) {
+      return res.status(404).json({ success: false, error: 'Book not found' });
+    }
+    res.status(200).json({ success: true, data: {} });
+  } catch (err) {
+    next(err);
+  }
+};
+
+// Update book copies (assuming you want to modify just the number of copies)
+exports.updateBookCopies = async (req, res, next) => {
+  try {
+    const { availableCopies, copies } = req.body;
+    const book = await Book.findByIdAndUpdate(req.params.id, {
+      copies: copies || availableCopies,
+      availableCopies: availableCopies || copies
+    }, { new: true });
+    if (!book) {
+      return res.status(404).json({ success: false, error: 'Book not found' });
+    }
+    res.status(200).json({ success: true, data: book });
   } catch (err) {
     next(err);
   }

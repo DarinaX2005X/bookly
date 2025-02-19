@@ -1,12 +1,9 @@
 document.addEventListener("DOMContentLoaded", () => {
   fetchBorrowedBooks();
   fetchTransactionHistory();
-  checkUserRoles();
   updateAuthButtons();
-  // Дополнительный функционал для главной страницы, если потребуется
 });
 
-// Пример функции для получения заимствованных книг (если нужно на главной)
 async function fetchBorrowedBooks() {
   try {
     const response = await fetch("/api/users/me", {
@@ -59,21 +56,3 @@ function updateAuthButtons() {
     registerBtn.style.display = "inline-block";
   }
 }
-
-async function checkUserRoles() {
-  const token = localStorage.getItem("token");
-  if (!token) return;
-  try {
-    const response = await fetch("/api/users/me", {
-      headers: { Authorization: `Bearer ${token}` },
-    });
-    const user = await response.json();
-    if (response.ok && user.data && user.data.role === "admin") {
-      const adminLink = document.getElementById("admin-link");
-      if (adminLink) adminLink.style.display = "block";
-    }
-  } catch (error) {
-    console.error("Error checking user roles:", error);
-  }
-}
-

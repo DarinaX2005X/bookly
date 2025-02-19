@@ -14,8 +14,7 @@
         <ul>
           <li><a href="/index.html">Home</a></li>
           <li><a href="/catalog.html">Catalog</a></li>
-          <li><a href="/my-books.html" id="my-books-link">My Books</a></li>
-          <li><a href="/admin.html" id="admin-link">Admin</a></li>
+          <li><a href="/my-books.html">My Books</a></li>
         </ul>
       </nav>
       <div class="auth-buttons">
@@ -31,11 +30,9 @@
       <a href="/catalog.html" class="btn">Browse Catalog</a>
     </section>
   </main>
-
-  <!-- Login Modal (будет доступно только на главной) -->
   <div id="login-modal" class="modal">
     <div class="modal-content">
-      <span class="close">&times;</span>
+      <span class="close">×</span>
       <h2>Login</h2>
       <form id="login-form">
         <input type="email" id="login-email" placeholder="Email" required>
@@ -44,22 +41,18 @@
       </form>
     </div>
   </div>
-
-  <!-- Register Modal (будет доступно только на главной) -->
   <div id="register-modal" class="modal">
     <div class="modal-content">
-      <span class="close">&times;</span>
+      <span class="close">×</span>
       <h2>Register</h2>
       <form id="register-form">
         <input type="text" id="register-name" placeholder="Name" required>
         <input type="email" id="register-email" placeholder="Email" required>
         <input type="password" id="register-password" placeholder="Password" required>
-        <!-- Поле выбора роли: -->
         <select id="register-role" required>
           <option value="user">User</option>
           <option value="librarian">Librarian</option>
         </select>
-        <!-- Поле для библиотекаря, отображается, если выбрана роль "librarian" -->
         <input type="text" id="register-employeeId" placeholder="Employee ID (for librarians)">
         <button type="submit" class="btn">Register</button>
       </form>

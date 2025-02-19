@@ -6,30 +6,27 @@ const User = require("../models/User");
 const Transaction = require("../models/Transaction");
 require("dotenv").config();
 
-mongoose.connect(process.env.MONGO_URI, {
+mongoose.connect(process.env.MONGODB_ATLAS_URI, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
 });
 
 async function fetchBooks() {
-  const response = await axios.get("https://openlibrary.org/search.json?q=book&limit=100");
-  return response.data.docs.map(book => {
-    const coverUrl = book.cover_i 
+  const response = await axios.get("https://openlibrary.org/search.json?q=book&limit=100&fields=key,title,author_name,first_publish_year,subject,publisher,isbn,cover_i,first_sentence");
+  return response.data.docs.map(book => ({
+    title: book.title,
+    authors: book.author_name || ["Unknown Author"],
+    publishedYear: book.first_publish_year || 2000,
+    genres: book.subject ? book.subject.slice(0, 3) : ["General"],
+    publisher: book.publisher ? book.publisher[0] : "Unknown",
+    isbn: book.isbn ? book.isbn[0] : faker.datatype.uuid(),
+    coverUrl: book.cover_i 
       ? `https://covers.openlibrary.org/b/id/${book.cover_i}-M.jpg`
-      : "https://via.placeholder.com/150";
-    return {
-      title: book.title,
-      authors: book.author_name || ["Unknown"],
-      publishedYear: book.first_publish_year || 2000,
-      genres: book.subject ? book.subject.slice(0, 3) : ["General"],
-      publisher: book.publisher ? book.publisher[0] : "Unknown",
-      isbn: book.isbn ? book.isbn[0] : faker.datatype.uuid(),
-      coverUrl,
-      copies: 5,
-      availableCopies: 5,
-      description: book.first_sentence ? book.first_sentence : "No description available."
-    };
-  });
+      : "https://via.placeholder.com/150",
+    copies: 5,
+    availableCopies: 5,
+    description: (Array.isArray(book.first_sentence) ? book.first_sentence : [book.first_sentence]) || (book.description ? [book.description.value] : ["No description available."]),
+  }));
 }
 
 async function seedDatabase() {
@@ -43,7 +40,9 @@ async function seedDatabase() {
   const users = Array.from({ length: 20 }, () => ({
     name: faker.name.findName(),
     email: faker.internet.email(),
-    password: "password"  // для простоты – одинаковый пароль
+    password: "password", // for simplicity - same password for all
+    role: faker.random.arrayElement(["user", "librarian"]),
+    employeeId: faker.datatype.uuid(),
   }));
   const savedUsers = await User.insertMany(users);
 
@@ -59,7 +58,8 @@ async function seedDatabase() {
       transactions.push({
         user: user._id,
         book: book._id,
-        borrowDate: faker.date.past()
+        borrowDate: faker.date.past(),
+        status: "borrowed",
       });
     }
   }

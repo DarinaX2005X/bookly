@@ -10,6 +10,13 @@ exports.register = async (req, res, next) => {
     if (email.toLowerCase() === process.env.ADMIN_EMAIL.toLowerCase()) {
       return res.status(400).json({ success: false, error: "Cannot register as admin" });
     }
+    
+    if (role === "librarian") {
+      const librarian = await Librarian.findOne({ employeeId });
+      if (!librarian) {
+        return res.status(400).json({ success: false, error: "Invalid librarian ID" });
+      }
+    }
 
     const userExists = await User.findOne({ email });
     if (userExists) {
@@ -20,7 +27,7 @@ exports.register = async (req, res, next) => {
       name,
       email,
       password,
-      role,
+      role: role || 'user', // default to user if role not specified
       employeeId: role === "librarian" ? employeeId : "",
     });
 

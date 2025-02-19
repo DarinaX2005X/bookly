@@ -5,7 +5,7 @@ document.addEventListener("DOMContentLoaded", () => {
 async function loadBorrowedBooks() {
   const token = localStorage.getItem("token");
   if (!token) {
-    notify("Please login to view your books.", "error");
+    alert("Please login to view your books.");
     window.location.href = "/index.html";
     return;
   }
@@ -17,7 +17,7 @@ async function loadBorrowedBooks() {
     if (response.ok && data.data) {
       renderBorrowedBooks(data.data.borrowedBooks);
     } else {
-      notify(data.error || "Failed to load books", "error");
+      alert(data.error || "Failed to load books");
     }
   } catch (error) {
     console.error("Error fetching borrowed books:", error);
@@ -31,6 +31,10 @@ function renderBorrowedBooks(books) {
       <img src="${book.coverUrl}" alt="${book.title} cover">
       <h3>${book.title}</h3>
       <p>By ${book.authors.join(", ")}</p>
+      <p>Publisher: ${book.publisher}</p>
+      <p>Year: ${book.publishedYear}</p>
+      <p>Genres: ${book.genres.join(", ")}</p>
+      <p>Description: ${book.description || "No description available."}</p>
       <button class="btn-return" data-id="${book._id}">Return</button>
     </div>
   `).join("");
@@ -44,7 +48,7 @@ function renderBorrowedBooks(books) {
 async function returnBook(bookId) {
   const token = localStorage.getItem("token");
   if (!token) {
-    notify("Please login to return a book.", "error");
+    alert("Please login to return a book.");
     return;
   }
   try {
@@ -54,13 +58,13 @@ async function returnBook(bookId) {
     });
     const data = await response.json();
     if (response.ok) {
-      notify("Book returned successfully!", "success");
+      alert("Book returned successfully!");
       loadBorrowedBooks();
     } else {
-      notify(data.error || "Failed to return book", "error");
+      alert(data.error || "Failed to return book");
     }
   } catch (error) {
     console.error("Error returning book:", error);
-    notify("An error occurred. Please try again.", "error");
+    alert("An error occurred. Please try again.");
   }
 }
