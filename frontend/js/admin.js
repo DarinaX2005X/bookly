@@ -1,4 +1,9 @@
 document.addEventListener("DOMContentLoaded", () => {
+  const role = localStorage.getItem("role");
+  if (role !== "admin") {
+    window.location.href = role === "librarian" ? "/librarian.html" : "/catalog.html";
+    return;
+  }
   loadAdminContent();
   setupTabs();
 });

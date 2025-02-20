@@ -16,6 +16,7 @@ async function loadBorrowedBooks() {
     const data = await response.json();
     if (response.ok && data.data) {
       renderBorrowedBooks(data.data.borrowedBooks);
+      console.log(data.data.borrowedBooks);
     } else {
       alert(data.error || "Failed to load books");
     }

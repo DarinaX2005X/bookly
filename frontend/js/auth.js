@@ -72,40 +72,55 @@ window.addEventListener("click", (e) => {
   }
 });
 
-if (document.getElementById("login-form")) {
-  document.getElementById("login-form").addEventListener("submit", async (e) => {
-    e.preventDefault();
-    const email = document.getElementById("login-email").value;
-    const password = document.getElementById("login-password").value;
-    try {
-      const response = await fetch("/api/auth/login", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email, password }),
-      });
-      const data = await response.json();
-      if (response.ok) {
-        localStorage.setItem("token", data.token);
-        notify("Login successful!", "success");
-        updateAuthButtons();
-        if (data.user && data.user.role === "admin") {
-          window.location.href = "/admin.html";
-          console.log(data.user);
-          console.log(data.user.role);
-        } else if (data.user && data.user.role === "librarian") {
-          window.location.href = "/librarian.html";
-        } else {
-          window.location.href = "/catalog.html";
-        }
+document.getElementById("login-form").addEventListener("submit", async (e) => {
+  e.preventDefault();
+  const email = document.getElementById("login-email").value;
+  const password = document.getElementById("login-password").value;
+  try {
+    const response = await fetch("/api/auth/login", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ email, password }),
+    });
+    const data = await response.json();
+    if (response.ok) {
+      localStorage.setItem("token", data.token);
+      localStorage.setItem("role", data.user.role); // Store role locally
+      notify("Login successful!", "success");
+      updateAuthButtons();
+      if (data.user.role === "admin") {
+        window.location.href = "/admin.html";
+      } else if (data.user.role === "librarian") {
+        window.location.href = "/librarian.html";
       } else {
-        notify(data.error || "Login failed", "error");
+        window.location.href = "/catalog.html";
       }
-    } catch (err) {
-      console.error("Error:", err);
-      notify("An error occurred. Please try again.", "error");
+    } else {
+      notify(data.error || "Login failed", "error");
     }
-  });
-}
+  } catch (err) {
+    console.error("Error:", err);
+    notify("An error occurred. Please try again.", "error");
+  }
+});
+
+// Protect pages
+document.addEventListener("DOMContentLoaded", () => {
+  const role = localStorage.getItem("role");
+  const path = window.location.pathname;
+  
+  if (!role && path !== "/index.html") {
+    window.location.href = "/index.html";
+  } else if (role === "user" && (path === "/admin.html" || path === "/librarian.html")) {
+    window.location.href = "/catalog.html";
+  } else if (role === "librarian" && path === "/admin.html") {
+    window.location.href = "/librarian.html";
+  } else if (role === "admin" && path === "/librarian.html") {
+    window.location.href = "/admin.html";
+  }
+  
+  updateAuthButtons();
+});
 
 if (document.getElementById("register-form")) {
   document.getElementById("register-form").addEventListener("submit", async (e) => {

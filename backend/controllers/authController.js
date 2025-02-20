@@ -45,30 +45,23 @@ exports.register = async (req, res, next) => {
 exports.login = async (req, res, next) => {
   const { email, password } = req.body;
   try {
-    // Если логин совпадает с ADMIN_EMAIL – проверяем ADMIN_PASSWORD
     if (email.toLowerCase() === process.env.ADMIN_EMAIL.toLowerCase()) {
       if (password !== process.env.ADMIN_PASSWORD) {
         return res.status(401).json({ success: false, error: "Invalid credentials" });
       }
-      // Генерируем токен для админа
       const token = jwt.sign({ id: "admin", role: "admin" }, process.env.JWT_SECRET, {
         expiresIn: process.env.JWT_EXPIRE,
       });
-      return res.status(200).json({ success: true, token });
+      return res.status(200).json({ success: true, token, user: { role: "admin" } });
     }
-    // Иначе ищем пользователя в БД
     const user = await User.findOne({ email }).select("+password");
-    if (!user) {
-      return res.status(401).json({ success: false, error: "Invalid credentials" });
-    }
-    const isMatch = await user.matchPassword(password);
-    if (!isMatch) {
+    if (!user || !(await user.matchPassword(password))) {
       return res.status(401).json({ success: false, error: "Invalid credentials" });
     }
     const token = jwt.sign({ id: user._id, role: user.role }, process.env.JWT_SECRET, {
       expiresIn: process.env.JWT_EXPIRE,
     });
-    res.status(200).json({ success: true, token });
+    res.status(200).json({ success: true, token, user: { role: user.role } });
   } catch (err) {
     next(err);
   }
