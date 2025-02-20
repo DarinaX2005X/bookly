@@ -7,19 +7,18 @@
   <link rel="stylesheet" href="/css/style.css">
 </head>
 <body>
-  <header>
-    <div class="container">
-      <div class="logo">Librarian Dashboard</div>
-      <div class="auth-buttons">
-        <button id="logout-btn">Logout</button>
-      </div>
-    </div>
+  <header class="librarian-header">
+    <nav>
+      <ul>
+        <li><a href="#create" class="active">Create Book</a></li>
+        <li><a href="#" id="logout-btn">Logout</a></li>
+      </ul>
+    </nav>
   </header>
   <main class="container">
-    <button id="create-book-btn">Create Book</button>
-    <button id="view-catalog-btn">View Catalog</button>
     <section id="book-management"></section>
   </main>
+  <script type="module" src="/js/notify.js"></script>
   <script type="module" src="/js/librarian.js"></script>
 </body>
 </html>

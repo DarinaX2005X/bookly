@@ -10,24 +10,21 @@ exports.register = async (req, res, next) => {
     if (email.toLowerCase() === process.env.ADMIN_EMAIL.toLowerCase()) {
       return res.status(400).json({ success: false, error: "Cannot register as admin" });
     }
-    
-    if (role === "librarian") {
-      const librarian = await Librarian.findOne({ employeeId });
-      if (!librarian) {
-        return res.status(400).json({ success: false, error: "Invalid librarian ID" });
-      }
-    }
 
     const userExists = await User.findOne({ email });
     if (userExists) {
       return res.status(400).json({ success: false, error: "User already exists" });
     }
 
+    if (role === "librarian" && !employeeId) {
+      return res.status(400).json({ success: false, error: "Employee ID required for librarians" });
+    }
+
     const user = await User.create({
       name,
       email,
       password,
-      role: role || 'user', // default to user if role not specified
+      role: role || "user",
       employeeId: role === "librarian" ? employeeId : "",
     });
 
@@ -35,7 +32,7 @@ exports.register = async (req, res, next) => {
       expiresIn: process.env.JWT_EXPIRE,
     });
 
-    res.status(201).json({ success: true, token });
+    res.status(201).json({ success: true, token, user: { role: user.role } });
   } catch (err) {
     next(err);
   }
@@ -54,13 +51,16 @@ exports.login = async (req, res, next) => {
       });
       return res.status(200).json({ success: true, token, user: { role: "admin" } });
     }
+
     const user = await User.findOne({ email }).select("+password");
     if (!user || !(await user.matchPassword(password))) {
       return res.status(401).json({ success: false, error: "Invalid credentials" });
     }
+
     const token = jwt.sign({ id: user._id, role: user.role }, process.env.JWT_SECRET, {
       expiresIn: process.env.JWT_EXPIRE,
     });
+
     res.status(200).json({ success: true, token, user: { role: user.role } });
   } catch (err) {
     next(err);

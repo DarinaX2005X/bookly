@@ -186,35 +186,6 @@ header .auth-buttons button:hover {
   font-size: 0.85rem;
 }
 
-/* Фильтры и Поиск */
-#filters {
-  display: flex;
-  gap: 1rem;
-  margin-bottom: 1rem;
-  align-items: center;
-}
-#filters input,
-#filters select {
-  padding: 0.5rem;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-}
-
-/* Пагинация */
-#pagination button {
-  margin: 0.2rem;
-  padding: 0.5rem 0.75rem;
-  border: none;
-  background-color: #333;
-  color: white;
-  border-radius: 3px;
-  cursor: pointer;
-}
-#pagination button[disabled] {
-  background-color: #777;
-  cursor: default;
-}
-
 /* 404 Page */
 main.container {
   text-align: center;
@@ -255,11 +226,11 @@ main.container .btn:hover {
   border-radius: 5px;
   position: relative;
   overflow: hidden;
+  transition: opacity 0.5s;
 }
 .notification.error {
   background-color: #f44336;
 }
-/* Таймер (прогресс-бар) */
 .notification .timer {
   position: absolute;
   bottom: 0;
@@ -276,16 +247,22 @@ main.container .btn:hover {
 
 .btn-borrow {
   background-color: #4CAF50;
-  border: none;
   color: white;
-  padding: 10px 20px;
-  text-align: center;
-  text-decoration: none;
-  display: inline-block;
-  font-size: 16px;
-  margin: 4px 2px;
-  cursor: pointer;
+  border: none;
+  padding: 0.5rem 1rem;
   border-radius: 5px;
+  cursor: pointer;
+  font-size: 1rem;
+  transition: background-color 0.3s;
+}
+
+.btn-borrow:hover {
+  background-color: #45a049;
+}
+
+.btn-borrow:disabled {
+  background-color: #cccccc;
+  cursor: not-allowed;
 }
 
 /* Admin Panel */
@@ -309,6 +286,57 @@ main.container .btn:hover {
 
 #content-area {
   margin-top: 1rem;
+}
+
+/* Header for Admin Pages */
+header.admin-header {
+  background-color: #2c3e50;
+  padding: 1rem 0;
+}
+
+header.admin-header nav ul {
+  display: flex;
+  justify-content: center;
+  gap: 2rem;
+  padding: 0;
+}
+
+header.admin-header nav ul li a {
+  color: #ecf0f1;
+  text-decoration: none;
+  font-weight: bold;
+  padding: 0.5rem 1rem;
+  border-radius: 5px;
+  transition: background-color 0.3s;
+}
+
+header.admin-header nav ul li a:hover,
+header.admin-header nav ul li a.active {
+  background-color: #3498db;
+}
+
+/* Admin Content */
+.admin-content {
+  background-color: white;
+  padding: 2rem;
+  border-radius: 5px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  margin-top: 2rem;
+}
+
+.admin-content table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.admin-content th, .admin-content td {
+  padding: 0.75rem;
+  border-bottom: 1px solid #ddd;
+  text-align: left;
+}
+
+.admin-content th {
+  background-color: #f4f4f4;
 }
 
 /* Librarian Modal for Creating Books */
@@ -349,9 +377,23 @@ main.container .btn:hover {
 
 /* Book Management */
 .book-card {
-  border: 1px solid #ddd;
-  padding: 10px;
-  margin: 10px 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  min-height: 400px;
+}
+
+.book-info {
+  flex-grow: 1;
+}
+
+.description {
+  margin: 0.5rem 0;
+  color: #666;
+}
+
+.btn-borrow, .btn-out-of-stock {
+  align-self: flex-end !important;
 }
 
 .book-card button {
@@ -365,4 +407,285 @@ main.container .btn:hover {
 
 .book-card button:hover {
   background-color: #45a049;
+}
+
+/* General Styles */
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  background-color: #f4f4f4;
+}
+
+.container {
+  width: 90%;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+/* Header */
+header {
+  background-color: #333;
+  color: white;
+  padding: 1rem 0;
+  display: flex;
+  align-items: center;
+}
+header .container {
+  display: flex;
+  align-items: center;
+}
+header .logo {
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+header nav ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  gap: 1rem;
+}
+header nav ul li a {
+  color: white;
+  text-decoration: none;
+}
+header .auth-buttons {
+  margin-left: auto;
+}
+header .auth-buttons button {
+  background-color: #555;
+  color: white;
+  border: none;
+  padding: 0.5rem 1rem;
+  cursor: pointer;
+}
+header .auth-buttons button:hover {
+  background-color: #777;
+}
+
+/* Admin Header */
+header.admin-header {
+  background-color: #2c3e50;
+  padding: 1rem 0;
+}
+header.admin-header nav ul {
+  justify-content: center;
+  gap: 2rem;
+}
+header.admin-header nav ul li a {
+  color: #ecf0f1;
+  font-weight: bold;
+  padding: 0.5rem 1rem;
+  border-radius: 5px;
+  transition: background-color 0.3s;
+}
+header.admin-header nav ul li a:hover,
+header.admin-header nav ul li a.active {
+  background-color: #3498db;
+}/* Librarian Header */
+header.librarian-header {
+  background-color: #2c3e50;
+  padding: 1rem 0;
+}
+header.librarian-header nav ul {
+  justify-content: center;
+  gap: 2rem;
+}
+header.librarian-header nav ul li a {
+  color: #ecf0f1;
+  font-weight: bold;
+  padding: 0.5rem 1rem;
+  border-radius: 5px;
+  transition: background-color 0.3s;
+}
+header.librarian-header nav ul li a:hover,
+header.librarian-header nav ul li a.active {
+  background-color: #3498db;
+}
+
+/* Hero Section */
+.hero {
+  text-align: center;
+  padding: 5rem 0;
+}
+.hero h1 {
+  font-size: 3rem;
+  margin-bottom: 1rem;
+}
+.hero p {
+  font-size: 1.2rem;
+  color: #666;
+  margin-bottom: 2rem;
+}
+.hero .btn {
+  background-color: #333;
+  color: white;
+  padding: 0.75rem 1.5rem;
+  text-decoration: none;
+  border-radius: 5px;
+}
+.hero .btn:hover {
+  background-color: #555;
+}
+
+/* Modal */
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 1000;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+}
+.modal-content {
+  background-color: white;
+  margin: 10% auto;
+  padding: 2rem;
+  width: 90%;
+  max-width: 400px;
+  border-radius: 5px;
+}
+.modal .close {
+  position: absolute;
+  right: 1rem;
+  top: 1rem;
+  font-size: 1.5rem;
+  cursor: pointer;
+}
+.modal h2 {
+  margin-bottom: 1rem;
+}
+.modal input, .modal select {
+  width: 100%;
+  padding: 0.5rem;
+  margin-bottom: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+.modal button {
+  width: 100%;
+  padding: 0.75rem;
+  background-color: #333;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+.modal button:hover {
+  background-color: #555;
+}
+
+/* Admin Content */
+.admin-content {
+  background-color: white;
+  padding: 2rem;
+  border-radius: 5px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  margin-top: 2rem;
+}
+.admin-content table {
+  width: 100%;
+  border-collapse: collapse;
+}
+.admin-content th, .admin-content td {
+  padding: 0.75rem;
+  border-bottom: 1px solid #ddd;
+  text-align: left;
+}
+.admin-content th {
+  background-color: #f4f4f4;
+}
+
+/* Catalog Grid */
+#books-container, #borrowed-books, #book-management {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  grid-gap: 1rem;
+  margin-bottom: 1rem;
+}
+.book-card {
+  background: white;
+  border-radius: 5px;
+  padding: 1rem;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  min-height: 350px;
+  justify-content: space-between;
+}
+.btn-borrow, .btn-return, .btn-edit, .btn-delete, .btn-update-copies {
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  transition: background-color 0.3s;
+  align-self: flex-end;
+}
+.btn-borrow:hover, .btn-return:hover, .btn-edit:hover, .btn-delete:hover, .btn-update-copies:hover {
+  background-color: #45a049;
+}
+.btn-out-of-stock {
+  background-color: #cccccc !important;
+  color: #666 !important;
+  border: none !important;
+  padding: 0.5rem 1rem !important;
+  border-radius: 5px !important;
+  cursor: not-allowed !important;
+  align-self: flex-end !important;
+}
+
+.copy-controls {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin: 0.5rem 0;
+}
+.copy-controls span:first-child {
+  margin-right: 0.5rem;
+}
+.copy-btn {
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  padding: 0.3rem 0.6rem;
+  border-radius: 3px;
+  cursor: pointer;
+  font-size: 0.9rem;
+}
+.copy-btn:hover {
+  background-color: #45a049;
+}
+
+/* Filters and Search */
+#filters {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 1rem;
+  align-items: center;
+}
+#filters input, #filters select {
+  padding: 0.5rem;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+/* Pagination */
+#pagination button {
+  margin: 0.2rem;
+  padding: 0.5rem 0.75rem;
+  border: none;
+  background-color: #333;
+  color: white;
+  border-radius: 3px;
+  cursor: pointer;
+}
+#pagination button[disabled] {
+  background-color: #777;
+  cursor: not-allowed;
 }

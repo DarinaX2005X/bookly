@@ -14,7 +14,8 @@
         <ul>
           <li><a href="/index.html">Home</a></li>
           <li><a href="/catalog.html">Catalog</a></li>
-          <li><a href="/my-books.html">My Books</a></li>
+          <li><a href="/my-books.html" id="my-books-link">My Books</a></li>
+          <li><a href="/admin-users.html" id="admin-link" style="display: none;">Admin</a></li>
         </ul>
       </nav>
       <div class="auth-buttons">
@@ -27,7 +28,7 @@
     <h1>My Books</h1>
     <div id="borrowed-books"></div>
   </main>
-  <script src="/js/my-books.js"></script>
-  <script src="/js/auth.js"></script>
+  <script type="module" src="/js/my-books.js"></script>
+  <script type="module" src="/js/auth.js"></script>
 </body>
 </html>

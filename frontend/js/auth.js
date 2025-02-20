@@ -1,24 +1,10 @@
-function notify(message, type = "success") {
-  const container = document.querySelector(".notification-container") || createNotificationContainer();
-  const notif = document.createElement("div");
-  notif.className = `notification ${type}`;
-  notif.textContent = message;
-  const timer = document.createElement("div");
-  timer.className = "timer";
-  notif.appendChild(timer);
-  container.appendChild(notif);
-  setTimeout(() => {
-    notif.style.opacity = "0";
-    setTimeout(() => notif.remove(), 500);
-  }, 2000);
-}
+import { notify } from './notify.js';
 
-function createNotificationContainer() {
-  const container = document.createElement("div");
-  container.className = "notification-container";
-  document.body.appendChild(container);
-  return container;
-}
+const loginBtn = document.getElementById("login-btn");
+const registerBtn = document.getElementById("register-btn");
+const loginModal = document.getElementById("login-modal");
+const registerModal = document.getElementById("register-modal");
+const closeBtns = document.querySelectorAll(".close");
 
 function ensureMainPage() {
   if (!window.location.pathname.endsWith("index.html") && window.location.pathname !== "/") {
@@ -28,17 +14,12 @@ function ensureMainPage() {
   return true;
 }
 
-const loginBtn = document.getElementById("login-btn");
-const registerBtn = document.getElementById("register-btn");
-const loginModal = document.getElementById("login-modal");
-const registerModal = document.getElementById("register-modal");
-const closeBtns = document.querySelectorAll(".close");
-
 if (loginBtn) {
   loginBtn.addEventListener("click", () => {
     const token = localStorage.getItem("token");
     if (token) {
       localStorage.removeItem("token");
+      localStorage.removeItem("role");
       notify("Logged out successfully.", "success");
       updateAuthButtons();
       window.location.href = "/index.html";
@@ -72,55 +53,38 @@ window.addEventListener("click", (e) => {
   }
 });
 
-document.getElementById("login-form").addEventListener("submit", async (e) => {
-  e.preventDefault();
-  const email = document.getElementById("login-email").value;
-  const password = document.getElementById("login-password").value;
-  try {
-    const response = await fetch("/api/auth/login", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ email, password }),
-    });
-    const data = await response.json();
-    if (response.ok) {
-      localStorage.setItem("token", data.token);
-      localStorage.setItem("role", data.user.role); // Store role locally
-      notify("Login successful!", "success");
-      updateAuthButtons();
-      if (data.user.role === "admin") {
-        window.location.href = "/admin.html";
-      } else if (data.user.role === "librarian") {
-        window.location.href = "/librarian.html";
+if (document.getElementById("login-form")) {
+  document.getElementById("login-form").addEventListener("submit", async (e) => {
+    e.preventDefault();
+    const email = document.getElementById("login-email").value;
+    const password = document.getElementById("login-password").value;
+    try {
+      const response = await fetch("/api/auth/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email, password }),
+      });
+      const data = await response.json();
+      if (response.ok) {
+        localStorage.setItem("token", data.token);
+        localStorage.setItem("role", data.user.role);
+        notify("Login successful!", "success");
+        updateAuthButtons();
+        if (data.user.role === "admin") {
+          window.location.href = "/admin-users.html";
+        } else if (data.user.role === "librarian") {
+          window.location.href = "/librarian.html";
+        } else {
+          window.location.href = "/catalog.html";
+        }
       } else {
-        window.location.href = "/catalog.html";
+        notify(data.error || "Login failed", "error");
       }
-    } else {
-      notify(data.error || "Login failed", "error");
+    } catch (err) {
+      notify("An error occurred. Please try again.", "error");
     }
-  } catch (err) {
-    console.error("Error:", err);
-    notify("An error occurred. Please try again.", "error");
-  }
-});
-
-// Protect pages
-document.addEventListener("DOMContentLoaded", () => {
-  const role = localStorage.getItem("role");
-  const path = window.location.pathname;
-  
-  if (!role && path !== "/index.html") {
-    window.location.href = "/index.html";
-  } else if (role === "user" && (path === "/admin.html" || path === "/librarian.html")) {
-    window.location.href = "/catalog.html";
-  } else if (role === "librarian" && path === "/admin.html") {
-    window.location.href = "/librarian.html";
-  } else if (role === "admin" && path === "/librarian.html") {
-    window.location.href = "/admin.html";
-  }
-  
-  updateAuthButtons();
-});
+  });
+}
 
 if (document.getElementById("register-form")) {
   document.getElementById("register-form").addEventListener("submit", async (e) => {
@@ -146,7 +110,6 @@ if (document.getElementById("register-form")) {
         notify(data.error || "Registration failed", "error");
       }
     } catch (err) {
-      console.error("Error:", err);
       notify("An error occurred. Please try again.", "error");
     }
   });
@@ -167,10 +130,38 @@ function updateAuthButtons() {
   }
 }
 
+async function checkUserRole() {
+  const token = localStorage.getItem("token");
+  if (!token) return;
+  try {
+    const response = await fetch("/api/users/me", {
+      headers: { Authorization: `Bearer ${token}` },
+    });
+    const user = await response.json();
+    if (response.ok && user.data) {
+      if (user.data.role === "admin" || user.data.id === "admin") {
+        document.getElementById("admin-link").style.display = "block";
+      } else {
+        document.getElementById("admin-link").style.display = "none";
+      }
+    }
+  } catch (err) {
+    console.error("Error:", err);
+  }
+}
+
 document.addEventListener("DOMContentLoaded", () => {
   const token = localStorage.getItem("token");
   if (!token && !window.location.pathname.endsWith("index.html")) {
     window.location.href = "/index.html";
   }
   updateAuthButtons();
+  checkUserRole();
+  const params = new URLSearchParams(window.location.search);
+  const modal = params.get("modal");
+  if (modal === "login") {
+    loginModal.style.display = "block";
+  } else if (modal === "register") {
+    registerModal.style.display = "block";
+  }
 });

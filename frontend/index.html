@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Bookly - Online Library</title>
+  <title>Bookly</title>
   <link rel="stylesheet" href="/css/style.css">
 </head>
 <body>
@@ -14,7 +14,8 @@
         <ul>
           <li><a href="/index.html">Home</a></li>
           <li><a href="/catalog.html">Catalog</a></li>
-          <li><a href="/my-books.html">My Books</a></li>
+          <li><a href="/my-books.html" id="my-books-link">My Books</a></li>
+          <li><a href="/admin-users.html" id="admin-link" style="display: none;">Admin</a></li>
         </ul>
       </nav>
       <div class="auth-buttons">
@@ -23,42 +24,43 @@
       </div>
     </div>
   </header>
-  <main class="container">
+  <main>
     <section class="hero">
-      <h1>Welcome to Bookly</h1>
-      <p>Explore our collection of 1000+ books from around the world.</p>
-      <a href="/catalog.html" class="btn">Browse Catalog</a>
+      <div class="container">
+        <h1>Welcome to Bookly</h1>
+        <p>Explore our vast collection of books!</p>
+        <a href="/catalog.html" class="btn">Browse Catalog</a>
+      </div>
     </section>
   </main>
   <div id="login-modal" class="modal">
     <div class="modal-content">
-      <span class="close">×</span>
+      <span class="close">&times;</span>
       <h2>Login</h2>
       <form id="login-form">
         <input type="email" id="login-email" placeholder="Email" required>
         <input type="password" id="login-password" placeholder="Password" required>
-        <button type="submit" class="btn">Login</button>
+        <button type="submit">Login</button>
       </form>
     </div>
   </div>
   <div id="register-modal" class="modal">
     <div class="modal-content">
-      <span class="close">×</span>
+      <span class="close">&times;</span>
       <h2>Register</h2>
       <form id="register-form">
         <input type="text" id="register-name" placeholder="Name" required>
         <input type="email" id="register-email" placeholder="Email" required>
         <input type="password" id="register-password" placeholder="Password" required>
-        <select id="register-role" required>
+        <select id="register-role">
           <option value="user">User</option>
           <option value="librarian">Librarian</option>
         </select>
         <input type="text" id="register-employeeId" placeholder="Employee ID (for librarians)">
-        <button type="submit" class="btn">Register</button>
+        <button type="submit">Register</button>
       </form>
     </div>
   </div>
-
-  <script src="/js/auth.js"></script>
+  <script type="module" src="/js/auth.js"></script>
 </body>
 </html>

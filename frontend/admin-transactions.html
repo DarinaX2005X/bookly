@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin - Transactions</title>
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+  <header class="admin-header">
+    <nav>
+      <ul>
+        <li><a href="/admin-users.html">Users</a></li>
+        <li><a href="/admin-librarians.html">Librarians</a></li>
+        <li><a href="/admin-books.html">Books</a></li>
+        <li><a href="/admin-transactions.html" class="active">Transactions</a></li>
+        <li><a href="#" id="logout-btn">Logout</a></li>
+      </ul>
+    </nav>
+  </header>
+  <main class="container">
+    <div class="admin-content">
+      <h1>Transactions</h1>
+      <table id="transactions-table">
+        <thead>
+          <tr>
+            <th>User</th>
+            <th>Book</th>
+            <th>Borrow Date</th>
+            <th>Return Date</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+    </div>
+  </main>
+  <script type="module" src="/js/admin-transactions.js"></script>
+</body>
+</html>

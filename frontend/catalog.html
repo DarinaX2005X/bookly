@@ -14,7 +14,8 @@
         <ul>
           <li><a href="/index.html">Home</a></li>
           <li><a href="/catalog.html">Catalog</a></li>
-          <li><a href="/my-books.html">My Books</a></li>
+          <li><a href="/my-books.html" id="my-books-link">My Books</a></li>
+          <li><a href="/admin-users.html" id="admin-link" style="display: none;">Admin</a></li>
         </ul>
       </nav>
       <div class="auth-buttons">
@@ -24,28 +25,29 @@
     </div>
   </header>
   <main class="container">
-    <h1>Book Catalog</h1>
+    <h1>Catalog</h1>
     <div id="filters">
-      <form id="search-form">
-        <input type="text" id="search-input" placeholder="Search by title, author...">
-        <select id="genre-select">
-          <option value="">All Genres</option>
-          <option value="Fiction">Fiction</option>
-          <option value="Nonfiction">Nonfiction</option>
-          <option value="History">History</option>
-          <option value="Science">Science</option>
-          <option value="Biography">Biography</option>
-          <option value="Mystery">Mystery</option>
-          <option value="Fantasy">Fantasy</option>
-          <option value="Romance">Romance</option>
-        </select>
-        <button type="submit" class="btn">Search</button>
-      </form>
+      <input type="text" id="search-input" placeholder="Search books...">
+      <select id="genre-select">
+        <option value="">All Genres</option>
+      </select>
+      <select id="author-select">
+        <option value="">All Authors</option>
+      </select>
+      <select id="sort-select">
+        <option value="title-asc">Title (A-Z)</option>
+        <option value="title-desc">Title (Z-A)</option>
+        <option value="publishedYear-asc">Year (Oldest First)</option>
+        <option value="publishedYear-desc">Year (Newest First)</option>
+        <option value="authors-asc">Authors (A-Z)</option>
+        <option value="authors-desc">Authors (Z-A)</option>
+      </select>
     </div>
     <div id="books-container"></div>
     <div id="pagination"></div>
   </main>
-  <script src="/js/books.js"></script>
-  <script src="/js/auth.js"></script>
+  <script type="module" src="/js/notify.js"></script>
+  <script type="module" src="/js/books.js"></script>
+  <script type="module" src="/js/auth.js"></script>
 </body>
 </html>
