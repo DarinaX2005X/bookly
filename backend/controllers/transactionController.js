@@ -4,7 +4,6 @@ const User = require("../models/User");
 
 exports.borrowBook = async (req, res, next) => {
   const { bookId } = req.body;
-
   try {
     const user = await User.findById(req.user._id);
     if (user.borrowedBooks.includes(bookId)) {
@@ -36,30 +35,20 @@ exports.borrowBook = async (req, res, next) => {
 
 exports.returnBook = async (req, res, next) => {
   const { bookId } = req.query;
-
   try {
-    const transaction = await Transaction.findOne({
-      user: req.user._id,
-      book: bookId,
-      status: "borrowed",
-    });
+    const transaction = await Transaction.findOneAndUpdate(
+      { user: req.user._id, book: bookId, status: "borrowed" },
+      { $set: { status: "returned", returnDate: new Date() } },
+      { new: true }
+    );
+
     if (!transaction) {
       return res.status(404).json({ success: false, error: "No active transaction found for this book" });
     }
 
-    const book = await Book.findById(bookId);
-    book.availableCopies += 1;
-    await book.save();
+    await Book.findByIdAndUpdate(bookId, { $inc: { availableCopies: 1 } });
 
-    const user = await User.findById(req.user._id);
-    user.borrowedBooks = user.borrowedBooks.filter(
-      (id) => id.toString() !== bookId.toString()
-    );
-    await user.save();
-
-    transaction.returnDate = Date.now();
-    transaction.status = "returned";
-    await transaction.save();
+    await User.findByIdAndUpdate(req.user._id, { $pull: { borrowedBooks: bookId } });
 
     res.status(200).json({ success: true, data: transaction });
   } catch (err) {
