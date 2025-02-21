@@ -14,6 +14,7 @@
         <li><a href="/admin-librarians.html">Librarians</a></li>
         <li><a href="/admin-books.html">Books</a></li>
         <li><a href="/admin-transactions.html" class="active">Transactions</a></li>
+        <li><a href="/admin.html">Dashboard</a></li>
         <li><a href="#" id="logout-btn">Logout</a></li>
       </ul>
     </nav>
@@ -21,6 +22,23 @@
   <main class="container">
     <div class="admin-content">
       <h1>Transactions</h1>
+      <div id="filters">
+        <input type="text" id="search" placeholder="Search by user or book">
+        <select id="sortBy">
+          <option value="borrowDate">Borrow Date</option>
+          <option value="returnDate">Return Date</option>
+          <option value="status">Status</option>
+        </select>
+        <select id="sortOrder">
+          <option value="asc">Ascending</option>
+          <option value="desc">Descending</option>
+        </select>
+        <select id="status">
+          <option value="">All Statuses</option>
+          <option value="borrowed">Borrowed</option>
+          <option value="returned">Returned</option>
+        </select>
+      </div>
       <table id="transactions-table">
         <thead>
           <tr>
@@ -35,6 +53,7 @@
       </table>
     </div>
   </main>
+  <script type="module" src="/js/notify.js"></script>
   <script type="module" src="/js/admin-transactions.js"></script>
 </body>
 </html>

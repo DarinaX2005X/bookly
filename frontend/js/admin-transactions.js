@@ -7,6 +7,10 @@ document.addEventListener("DOMContentLoaded", () => {
     return;
   }
   loadTransactions();
+  document.getElementById("search").addEventListener("input", loadTransactions);
+  document.getElementById("sortBy").addEventListener("change", loadTransactions);
+  document.getElementById("sortOrder").addEventListener("change", loadTransactions);
+  document.getElementById("status").addEventListener("change", loadTransactions);
   document.getElementById("logout-btn").addEventListener("click", () => {
     localStorage.removeItem("token");
     localStorage.removeItem("role");
@@ -22,8 +26,15 @@ async function loadTransactions() {
     window.location.href = "/index.html";
     return;
   }
+
+  const search = document.getElementById("search").value;
+  const sortBy = document.getElementById("sortBy").value;
+  const sortOrder = document.getElementById("sortOrder").value;
+  const status = document.getElementById("status").value;
+
   try {
-    const response = await fetch("/api/admin/transactions", {
+    const url = `/api/admin/transactions?${search ? `search=${encodeURIComponent(search)}&` : ''}sortBy=${sortBy}&sortOrder=${sortOrder}${status ? `&status=${status}` : ''}`;
+    const response = await fetch(url, {
       headers: { Authorization: `Bearer ${token}` },
     });
     const data = await response.json();

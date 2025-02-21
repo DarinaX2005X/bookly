@@ -14,6 +14,7 @@
         <li><a href="/admin-librarians.html">Librarians</a></li>
         <li><a href="/admin-books.html" class="active">Books</a></li>
         <li><a href="/admin-transactions.html">Transactions</a></li>
+        <li><a href="/admin.html">Dashboard</a></li>
         <li><a href="#" id="logout-btn">Logout</a></li>
       </ul>
     </nav>
@@ -21,6 +22,18 @@
   <main class="container">
     <div class="admin-content">
       <h1>Books</h1>
+      <div id="filters">
+        <input type="text" id="search" placeholder="Search by title or author">
+        <select id="sortBy">
+          <option value="title">Title</option>
+          <option value="authors">Authors</option>
+          <option value="availableCopies">Available Copies</option>
+        </select>
+        <select id="sortOrder">
+          <option value="asc">Ascending</option>
+          <option value="desc">Descending</option>
+        </select>
+      </div>
       <table id="books-table">
         <thead>
           <tr>
@@ -33,6 +46,7 @@
       </table>
     </div>
   </main>
+  <script type="module" src="/js/notify.js"></script>
   <script type="module" src="/js/admin-books.js"></script>
 </body>
 </html>

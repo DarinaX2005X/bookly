@@ -1,7 +1,9 @@
+import { notify } from './notify.js';
+
 document.addEventListener("DOMContentLoaded", () => {
   const role = localStorage.getItem("role");
   if (role !== "admin") {
-    window.location.href = role === "librarian" ? "/librarian.html" : "/catalog.html";
+    window.location.href = "/index.html";
     return;
   }
   loadStats();
@@ -38,19 +40,54 @@ async function loadStats() {
 function renderStats(stats) {
   const container = document.getElementById("stats");
   container.innerHTML = `
-    <h2>Library Statistics</h2>
-    <p>Total Books: ${stats.totalBooks}</p>
-    <p>Total Users: ${stats.totalUsers}</p>
-    <p>Total Transactions: ${stats.totalTransactions}</p>
-    <p>Popular Genres: ${stats.popularGenres.join(", ")}</p>
-    <p>Overdue Books: ${stats.overdueBooks}</p>
-    <h3>Most Borrowed Books</h3>
-    <ul>${stats.mostBorrowedBooks.map(book => `<li>${book.title}: ${book.count}</li>`).join('')}</ul>
+    <div class="stat-card">
+      <h3>Total Books</h3>
+      <p>${stats.totalBooks}</p>
+    </div>
+    <div class="stat-card">
+      <h3>Total Users</h3>
+      <p>${stats.totalUsers}</p>
+    </div>
+    <div class="stat-card">
+      <h3>Total Transactions</h3>
+      <p>${stats.totalTransactions}</p>
+    </div>
+    <div class="stat-card">
+      <h3>Overdue Books</h3>
+      <p>${stats.overdueBooks}</p>
+    </div>
+    <div class="stat-card">
+      <h3>Avg Borrow Duration</h3>
+      <p>${stats.avgBorrowDuration.toFixed(2)} days</p>
+    </div>
+    <div class="stat-card">
+      <h2>Most Borrowed Books</h2>
+      ${stats.mostBorrowedBooks.map(book => `<p>${book.title}: ${book.count}</p>`).join('')}
+    </div>
+    <div class="stat-card">
+      <h2>Most Active Users</h2>
+      ${stats.mostActiveUsers.map(user => `<p>${user.name}: ${user.count}</p>`).join('')}
+    </div>
+    <div class="stat-card">
+      <h2>Popular Genres</h2>
+      ${stats.popularGenres.map(genre => `<p>${genre}</p>`).join('')}
+    </div>
+    <canvas id="statsChart" width="400" height="200"></canvas>
   `;
-}
 
-// Add event listener for logout
-document.getElementById("logout-btn").addEventListener("click", () => {
-  localStorage.removeItem("token");
-  window.location.href = "/index.html";
-});
+  const ctx = document.getElementById("statsChart").getContext("2d");
+  new Chart(ctx, {
+    type: 'bar',
+    data: {
+      labels: ['Books', 'Users', 'Transactions', 'Overdue'],
+      datasets: [{
+        label: 'Total Count',
+        data: [stats.totalBooks, stats.totalUsers, stats.totalTransactions, stats.overdueBooks],
+        backgroundColor: ['#ff6384', '#36a2eb', '#cc65fe', '#ffce56'],
+      }]
+    },
+    options: {
+      scales: { y: { beginAtZero: true } }
+    }
+  });
+}

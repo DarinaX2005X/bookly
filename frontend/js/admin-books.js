@@ -7,6 +7,9 @@ document.addEventListener("DOMContentLoaded", () => {
     return;
   }
   loadBooks();
+  document.getElementById("search").addEventListener("input", loadBooks);
+  document.getElementById("sortBy").addEventListener("change", loadBooks);
+  document.getElementById("sortOrder").addEventListener("change", loadBooks);
   document.getElementById("logout-btn").addEventListener("click", () => {
     localStorage.removeItem("token");
     localStorage.removeItem("role");
@@ -22,8 +25,14 @@ async function loadBooks() {
     window.location.href = "/index.html";
     return;
   }
+
+  const search = document.getElementById("search").value;
+  const sortBy = document.getElementById("sortBy").value;
+  const sortOrder = document.getElementById("sortOrder").value;
+
   try {
-    const response = await fetch("/api/admin/books", {
+    const url = `/api/admin/books?${search ? `search=${encodeURIComponent(search)}&` : ''}sortBy=${sortBy}&sortOrder=${sortOrder}`;
+    const response = await fetch(url, {
       headers: { Authorization: `Bearer ${token}` },
     });
     const data = await response.json();

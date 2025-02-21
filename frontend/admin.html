@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Admin - Statistics</title>
+  <title>Admin Dashboard</title>
   <link rel="stylesheet" href="/css/style.css">
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
@@ -15,16 +15,18 @@
         <li><a href="/admin-librarians.html">Librarians</a></li>
         <li><a href="/admin-books.html">Books</a></li>
         <li><a href="/admin-transactions.html">Transactions</a></li>
+        <li><a href="/admin.html" class="active">Dashboard</a></li>
         <li><a href="#" id="logout-btn">Logout</a></li>
       </ul>
     </nav>
   </header>
   <main class="container">
     <div class="admin-content">
-      <h1>Statistics</h1>
+      <h1>Admin Dashboard</h1>
       <div id="stats"></div>
     </div>
   </main>
+  <script type="module" src="/js/notify.js"></script>
   <script type="module" src="/js/admin.js"></script>
 </body>
 </html>

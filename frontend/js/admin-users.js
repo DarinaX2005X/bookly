@@ -7,6 +7,10 @@ document.addEventListener("DOMContentLoaded", () => {
     return;
   }
   loadUsers();
+  document.getElementById("search").addEventListener("input", loadUsers);
+  document.getElementById("sortBy").addEventListener("change", loadUsers);
+  document.getElementById("sortOrder").addEventListener("change", loadUsers);
+  document.getElementById("role").addEventListener("change", loadUsers);
   document.getElementById("logout-btn").addEventListener("click", () => {
     localStorage.removeItem("token");
     localStorage.removeItem("role");
@@ -22,8 +26,15 @@ async function loadUsers() {
     window.location.href = "/index.html";
     return;
   }
+
+  const search = document.getElementById("search").value;
+  const sortBy = document.getElementById("sortBy").value;
+  const sortOrder = document.getElementById("sortOrder").value;
+  const role = document.getElementById("role").value;
+
   try {
-    const response = await fetch("/api/admin/users", {
+    const url = `/api/admin/users?${search ? `search=${encodeURIComponent(search)}&` : ''}sortBy=${sortBy}&sortOrder=${sortOrder}${role ? `&role=${role}` : ''}`;
+    const response = await fetch(url, {
       headers: { Authorization: `Bearer ${token}` },
     });
     const data = await response.json();

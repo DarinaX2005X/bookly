@@ -689,3 +689,40 @@ header.librarian-header nav ul li a.active {
   background-color: #777;
   cursor: not-allowed;
 }
+
+/* Admin Stats Styling */
+#stats {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+.stat-card {
+  background: #fff;
+  border-radius: 5px;
+  padding: 1rem;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  flex: 1 1 200px;
+  text-align: center;
+}
+.stat-card h3 {
+  margin: 0 0 0.5rem;
+  color: #333;
+}
+.stat-card p {
+  margin: 0;
+  font-size: 1.2rem;
+  color: #555;
+}
+#statsChart {
+  margin-top: 2rem;
+}
+
+/* Filters */
+#filters {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 1rem;
+  align-items: center;
+  flex-wrap: wrap;
+}

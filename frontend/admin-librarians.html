@@ -14,6 +14,7 @@
         <li><a href="/admin-librarians.html" class="active">Librarians</a></li>
         <li><a href="/admin-books.html">Books</a></li>
         <li><a href="/admin-transactions.html">Transactions</a></li>
+        <li><a href="/admin.html">Dashboard</a></li>
         <li><a href="#" id="logout-btn">Logout</a></li>
       </ul>
     </nav>
@@ -21,6 +22,18 @@
   <main class="container">
     <div class="admin-content">
       <h1>Librarians</h1>
+      <div id="filters">
+        <input type="text" id="search" placeholder="Search by name or email">
+        <select id="sortBy">
+          <option value="name">Name</option>
+          <option value="email">Email</option>
+          <option value="employeeId">Employee ID</option>
+        </select>
+        <select id="sortOrder">
+          <option value="asc">Ascending</option>
+          <option value="desc">Descending</option>
+        </select>
+      </div>
       <table id="librarians-table">
         <thead>
           <tr>
@@ -33,6 +46,7 @@
       </table>
     </div>
   </main>
+  <script type="module" src="/js/notify.js"></script>
   <script type="module" src="/js/admin-librarians.js"></script>
 </body>
 </html>
